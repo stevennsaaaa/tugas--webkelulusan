@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelulusan Siswa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            padding: 30px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0002;
+        }
+        h1 { text-align: center; color: #2563eb; }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        #hasil { margin-top: 20px; line-height: 2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kelulusan Siswa</h1>
+        <div id="hasil"></div>
+        <button onclick="window.print()">Cetak Hasil</button>
+    </div>
+
+    <script>
+        let nama = "Andi";
+        let nilaiTugas = 80;
+        let nilaiUTS = 75;
+        let nilaiUAS = 90;
+
+        let nilaiAkhir =
+            (nilaiTugas * 30 / 100) +
+            (nilaiUTS * 30 / 100) +
+            (nilaiUAS * 40 / 100);
+
+        let status = nilaiAkhir >= 75 ? "LULUS" : "TIDAK LULUS";
+
+        console.log("Nama:", nama);
+        console.log("Nilai Akhir:", nilaiAkhir);
+        console.log("Status:", status);
+
+        document.getElementById("hasil").innerHTML = `
+            <b>Nama:</b> ${nama}<br>
+            <b>Nilai Tugas:</b> ${nilaiTugas}<br>
+            <b>Nilai UTS:</b> ${nilaiUTS}<br>
+            <b>Nilai UAS:</b> ${nilaiUAS}<br>
+            <hr>
+            <b>Nilai Akhir:</b> ${nilaiAkhir}<br>
+            <b>Status:</b> ${status}
+        `;
+    </script>
+</body>
+</html>
