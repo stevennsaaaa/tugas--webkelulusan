@@ -3,68 +3,106 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kelulusan Siswa</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f0f4f8;
-            padding: 30px;
+            font-family: Arial;
+            background: #eef2ff;
+            padding: 20px;
         }
         .container {
-            max-width: 500px;
+            max-width: 450px;
             margin: auto;
             background: white;
             padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px #0002;
         }
-        h1 { text-align: center; color: #2563eb; }
-        button {
+        input {
             width: 100%;
+            padding: 10px;
+            margin: 7px 0 15px;
+            box-sizing: border-box;
+        }
+        button {
             padding: 12px;
+            width: 100%;
+            border: none;
             background: #2563eb;
             color: white;
-            border: none;
             border-radius: 6px;
             cursor: pointer;
         }
-        #hasil { margin-top: 20px; line-height: 2; }
+        #hasil {
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+        @media print {
+            button { display: none; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Kelulusan Siswa</h1>
-        <div id="hasil"></div>
-        <button onclick="window.print()">Cetak Hasil</button>
-    </div>
+<div class="container">
+    <h2>Program Kelulusan Siswa</h2>
 
-    <script>
-        let nama = "Andi";
-        let nilaiTugas = 80;
-        let nilaiUTS = 75;
-        let nilaiUAS = 90;
+    <label>Nama Siswa</label>
+    <input type="text" id="nama" placeholder="Masukkan nama">
 
-        let nilaiAkhir =
-            (nilaiTugas * 30 / 100) +
-            (nilaiUTS * 30 / 100) +
-            (nilaiUAS * 40 / 100);
+    <label>Nilai Tugas</label>
+    <input type="number" id="tugas" min="0" max="100" placeholder="0 - 100">
 
-        let status = nilaiAkhir >= 75 ? "LULUS" : "TIDAK LULUS";
+    <label>Nilai UTS</label>
+    <input type="number" id="uts" min="0" max="100" placeholder="0 - 100">
 
-        console.log("Nama:", nama);
-        console.log("Nilai Akhir:", nilaiAkhir);
-        console.log("Status:", status);
+    <label>Nilai UAS</label>
+    <input type="number" id="uas" min="0" max="100" placeholder="0 - 100">
 
-        document.getElementById("hasil").innerHTML = `
-            <b>Nama:</b> ${nama}<br>
-            <b>Nilai Tugas:</b> ${nilaiTugas}<br>
-            <b>Nilai UTS:</b> ${nilaiUTS}<br>
-            <b>Nilai UAS:</b> ${nilaiUAS}<br>
-            <hr>
-            <b>Nilai Akhir:</b> ${nilaiAkhir}<br>
-            <b>Status:</b> ${status}
-        `;
-    </script>
+    <button onclick="hitung()">Hitung Kelulusan</button>
+
+    <div id="hasil"></div>
+    <button onclick="window.print()">Cetak Hasil</button>
+</div>
+
+<script>
+function hitung() {
+    let nama = document.getElementById("nama").value.trim();
+    let tugas = document.getElementById("tugas").value;
+    let uts = document.getElementById("uts").value;
+    let uas = document.getElementById("uas").value;
+
+    if (!nama || tugas === "" || uts === "" || uas === "") {
+        alert("Semua data wajib diisi!");
+        return;
+    }
+
+    tugas = Number(tugas);
+    uts = Number(uts);
+    uas = Number(uas);
+
+    if ([tugas, uts, uas].some(n => n < 0 || n > 100)) {
+        alert("Nilai harus antara 0 sampai 100!");
+        return;
+    }
+
+    let nilaiAkhir = tugas * 0.3 + uts * 0.3 + uas * 0.4;
+    let status = nilaiAkhir >= 75 ? "LULUS" : "TIDAK LULUS";
+
+    console.log("Nama:", nama);
+    console.log("Nilai Akhir:", nilaiAkhir);
+    console.log("Status:", status);
+
+    document.getElementById("hasil").innerHTML = `
+        <hr>
+        <h3>Hasil Kelulusan</h3>
+        Nama: ${nama}<br>
+        Nilai Tugas: ${tugas}<br>
+        Nilai UTS: ${uts}<br>
+        Nilai UAS: ${uas}<br>
+        Nilai Akhir: ${nilaiAkhir.toFixed(2)}<br>
+        Status: <b>${status}</b>
+    `;
+}
+</script>
 </body>
 </html>
